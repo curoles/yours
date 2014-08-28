@@ -11,10 +11,8 @@
 #)
 #endif(RDOC_FOUND)
 
-message ("current source dir is  ${CMAKE_CURRENT_SOURCE_DIR}")
-
 set (RDOC_EXECUTABLE rdoc)
-add_custom_target(doc ALL
+add_custom_target(doc #ALL
  ${RDOC_EXECUTABLE} --root=${CMAKE_CURRENT_SOURCE_DIR} --all --op=${CMAKE_CURRENT_BINARY_DIR}/rdoc --verbose
  #WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
