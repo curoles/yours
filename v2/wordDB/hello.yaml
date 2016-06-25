@@ -1,0 +1,12 @@
+yours:
+  version: 0.0.1
+
+word:
+  id: hello
+  class:
+    exclamation:
+      brief: used as a greeting.
+    noun:
+      brief: a greeting.
+    verb:
+      brief: greet someone.

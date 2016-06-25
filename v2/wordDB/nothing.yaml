@@ -1,0 +1,13 @@
+yours:
+  version: 0.0.1
+
+word:
+  id: nothing
+  class:
+    pronoun:
+      brief: not anything; no single thing.
+    adverb:
+      brief: not at all
+    adjective:
+      brief: having no prospect of progress; of no value.
+      informal: true

@@ -1,0 +1,10 @@
+yours:
+  version: 0.0.1
+
+word:
+  id: universe
+  class:
+    noun:
+      brief: all existing matter and space considered as a whole.
+      belongs: nothing
+

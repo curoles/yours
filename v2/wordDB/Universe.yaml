@@ -1,0 +1,11 @@
+yours:
+  version: 0.0.1
+
+word:
+  id: Universe
+  class:
+    noun:
+      brief: our universe.
+      is: universe
+      belongs: nothing
+
