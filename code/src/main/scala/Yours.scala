@@ -1,5 +1,8 @@
-import yours._
+import yours.grammar._
 
+/** Yours command line app.
+ *
+ */
 object Yours extends App {
   //println("Hello, world!")
   Console.println("Yours: " + (args mkString ", "))

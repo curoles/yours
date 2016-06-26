@@ -1,9 +1,16 @@
+.PHONY: compile
 compile:
 	sbt -v compile
 
+.PHONY: run
 run:
 	sbt -v run
 
+.PHONY: doc
+doc:
+	sbt doc
+
+.PHONY: clean
 clean:
 	sbt clean
 
