@@ -1,8 +1,8 @@
 compile:
-	sbt compile
+	sbt -v compile
 
 run:
-	sbt run
+	sbt -v run
 
 clean:
 	sbt clean

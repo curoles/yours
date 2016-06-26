@@ -26,8 +26,8 @@ git init
 
 If you need to use different user name for this project
 ```
-yours>git config user.name "curoles"
-yours>git config user.email curoles@yahoo.com
+yours>git config user.name "username"
+yours>git config user.email username@yahoo.com
 ```
 
 Create a remote named "origin" pointing at your GitHub repository
