@@ -1,0 +1,17 @@
+<word>
+
+  <version>0.0.1</version>
+
+  <id>hello</id>
+  <class>
+    <exclamation>
+      <brief>used as a greeting.</brief>
+    </exlamation>
+    <noun>
+      <brief>a greeting.</brief>
+    </noun>
+    <verb>
+      <brief>greet someone.</brief>
+    </verb>
+  </class>
+</word>

@@ -3,9 +3,12 @@ package yours
 import yours.grammar._
 
 /** Processes user input text.
- *
- * @author Igor Lesik 2016
- */
+  *
+  * 
+  * [[file:htmlsrc/yours/InputProcessor.scala.html]]
+  *
+  * @author Igor Lesik 2016
+  */
 class InputProcessor {
 
   /// Tokenizes input text.
