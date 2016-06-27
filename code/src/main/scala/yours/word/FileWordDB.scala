@@ -4,7 +4,6 @@
  */
 package yours.word
 
-//import java.io.File
 import java.nio.file.{Paths, Files}
 
 /** File System based Word DB.
@@ -34,7 +33,11 @@ class FileWordDB(path:String) extends WordDB(path) {
   /** Returns word if finds it, else `None` */ 
   override def find(word:String): Option[String] = {
     //TODO search cache
-    findFile(word, word+".xml")
+    val foundXmlFile = findFile(word, word+".xml")
+    val xmlFile = foundXmlFile.get
+    val wordDef = new WordDef
+    wordDef.readXML(xmlFile)
+    None
   }
 
   /** Returs word xml file path or `None` */

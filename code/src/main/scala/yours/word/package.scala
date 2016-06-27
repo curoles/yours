@@ -13,5 +13,9 @@ package yours
   *
   * ==Word DB==
   * bla bla
+  *
+  * <pre class="textdiagram">
+  * ----->
+  * </pre>
   */
 package object word {}

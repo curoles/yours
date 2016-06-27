@@ -9,8 +9,6 @@ SOURCE_DIR := $(BASE)/code/src
 SCALA_SOURCES := $(shell find $(SOURCE_DIR)/main/scala -type f -name '*.scala')
 
 BUILD_DIR := .
-DOC_DIR := $(BUILD_DIR)/doc
-HTML_SRC := $(DOC_DIR)/htmlsrc
 
 .PHONY: compile
 compile:
@@ -39,6 +37,14 @@ htmlsrc:
 		$(PYGMENTIZE) -l scala -o $(outfile) $(srcfile) ; \
 	)
 
+.PHONY: ditaa
+ditaa: API_DIR := `pwd`/target/scala-2.10/api
+ditaa: HTML_FILES := $(shell find $(API_DIR) -type f -name '*.html')
+ditaa:
+	@$(ECHO) $(call color-str,$(BIGre),Generate DITAA diagrams)
+	@- $(foreach file,$(HTML_FILES), \
+		cd $(dir $(file)) && $(DITAA) --html $(file) -o $(file) ; \
+	)
 
 #cd $(@D) && $(DITAA) --html $< -o $@.diag 
 
