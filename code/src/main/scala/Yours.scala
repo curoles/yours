@@ -8,9 +8,10 @@ object Yours extends App {
 
   Console.println("Yours: " + (args mkString ", "))
 
-  val inputProcessor = new InputProcessor
+  val interpreter = new yours.interpret.Interpreter
 
-  inputProcessor("Hello Igor, number 1 super-hero.")
+  //interpreter("Hello Igor, number 1 super-hero. How are you?")
+  interpreter("hello.")
 
 import yours.word._
 val wdb:WordDB = new FileWordDB("./wdb/")
