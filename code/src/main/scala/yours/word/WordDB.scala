@@ -16,6 +16,6 @@ abstract class WordDB(val path:String) {
   def exists(word:String): Boolean
 
   /** Find word */
-  def find(word:String): Option[String]
+  def find(word:String): Option[WordDef]
 }
 

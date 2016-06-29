@@ -6,6 +6,7 @@
 package yours.interpret.frontend
 
 import yours.grammar._
+import yours.word._
 
 /** Processes user input text.
   *
@@ -15,6 +16,9 @@ import yours.grammar._
   * @author Igor Lesik 2016
   */
 class InputProcessor {
+
+  val wdb:WordDB = new FileWordDB("./wdb/")
+  if (!wdb.open) {println("can't open wdb")}
 
   /** Tokenizes input text. */
   val sentenceParser = new SentenceParser
@@ -55,6 +59,14 @@ class InputProcessor {
   def onNextSentence(sentence:yours.grammar.SentenceToken) = {
     println("sentence:"+sentence)
     println("  words:"+sentence.words)
-    sentence.words.foreach{word => println("    word:"+word)}
+    sentence.words.foreach{word => {
+        val wordStr = tokenToString(word)
+        println("    word:"+wordStr)
+        val wordDef = wdb.find(wordStr)
+        println(wordDef.getOrElse("oops can't find word:"+wordStr))
+
+      }
+    }
   }
+
 }

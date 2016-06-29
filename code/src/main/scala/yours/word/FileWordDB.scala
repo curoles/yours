@@ -4,7 +4,7 @@
  */
 package yours.word
 
-import java.nio.file.{Paths, Files}
+import java.nio.file.{Paths, Files, Path}
 
 /** File System based Word DB.
   *
@@ -31,13 +31,14 @@ class FileWordDB(path:String) extends WordDB(path) {
   }
 
   /** Returns word if finds it, else `None` */ 
-  override def find(word:String): Option[String] = {
+  override def find(word:String): Option[WordDef] = {
     //TODO search cache
     val foundXmlFile = findFile(word, word+".xml")
+    if (foundXmlFile.isEmpty) return None
     val xmlFile = foundXmlFile.get
     val wordDef = new WordDef
     wordDef.readXML(xmlFile)
-    None
+    Some(wordDef)
   }
 
   /** Returs word xml file path or `None` */
@@ -56,13 +57,18 @@ class FileWordDB(path:String) extends WordDB(path) {
   /** Returns true if file exists */
   def fileExists(s:String) = Files.exists(Paths.get(s))
 
+  /** Returns true if file exists */
+  def fileExists(p:Path) = Files.exists(p)
+
   /** Checks remote location(s) and copies file to local file system */
   def loadRemoteFile(fileName:String, destPathStr:String) = {
     val remoteLocation = "../yours/code/wordDB/"
     val remoteFilePath = Paths.get(remoteLocation+fileName)
-    val destPath = Paths.get(destPathStr)
-    Files.createDirectories(destPath.getParent())
-    Files.copy(remoteFilePath, destPath)
+    if (fileExists(remoteFilePath)) {
+      val destPath = Paths.get(destPathStr)
+      Files.createDirectories(destPath.getParent())
+      Files.copy(remoteFilePath, destPath)
+    }
   }
 }
 

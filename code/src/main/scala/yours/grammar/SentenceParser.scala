@@ -44,7 +44,7 @@ class SentenceParser extends RegexParsers {
     * @group Grammar
     */
   def comma: Parser[Token] =
-    Comma ^^ {case a => CommaToken()}
+    Comma ^^ {case a => CommaToken(a)}
 
   /** Simple single word regexp
     * @group Grammar
