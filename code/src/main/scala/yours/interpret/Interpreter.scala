@@ -4,6 +4,10 @@
  */
 package yours.interpret
 
+import akka.actor._
+import yours.execute.Executor
+import yours.execute.ActionScalaScript
+
 /** Interprets user text and then replies and executes commands.
   *
   *
@@ -35,6 +39,11 @@ class Interpreter {
 
   val inputProcessor = new frontend.InputProcessor
 
+
+  //val executor = new yours.execute.Executor
+  val actorSystem = ActorSystem("YoursActorSystem")
+  val executor = actorSystem.actorOf(Props[Executor], "executor")
+
   /** To call like:
     * {{{
     * interpreter(text)
@@ -47,6 +56,11 @@ class Interpreter {
     */
   def process(input: String) = {
     inputProcessor(input)
+    val actionScript = new ActionScalaScript(input)//outputProcessor()
+    executor ! actionScript
   }
 
+  def shutdown() = {
+    actorSystem.shutdown()
+  }
 }

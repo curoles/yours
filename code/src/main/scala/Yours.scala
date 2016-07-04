@@ -13,5 +13,6 @@ object Yours extends App {
   //interpreter("Hello Igor, number 1 super-hero. How are you?")
   interpreter("hello.")
 
+  interpreter.shutdown()
 }
 
