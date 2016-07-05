@@ -6,13 +6,33 @@ import yours._
   */
 object Yours extends App {
 
-  Console.println("Yours: " + (args mkString ", "))
+  println(Console.BLUE+"YOURS Operating User Reactive System by Igor Lesik"+Console.RESET)
+  println("Arguments: " + (args mkString ", "))
 
   val interpreter = new yours.interpret.Interpreter
 
-  //interpreter("Hello Igor, number 1 super-hero. How are you?")
-  interpreter("hello.")
+  println("YOURS is ready and listening.")
+
+  if (args.length > 0) {
+    readLineLoop()
+  }
+  else {
+    //interpreter("Hello Igor, number 1 super-hero. How are you?")
+    interpreter("hello.")
+  }
 
   interpreter.terminate()
+
+  def readLineLoop() = {
+    var userInput:String = null;
+    do {
+      userInput = scala.io.StdIn.readLine(">")
+      if (userInput != null) {
+        interpreter(userInput)
+        println()
+      }
+    } while (userInput != null)
+    println()
+  }
 }
 

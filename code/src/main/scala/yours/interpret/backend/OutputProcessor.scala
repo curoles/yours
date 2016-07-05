@@ -13,12 +13,12 @@ class OutputProcessor {
     * outputProcessor(input)
     * }}}
     */
-  def apply(input: String) = process(input)
+  def apply(input: ParsedText) = process(input)
 
   /** Thinks and returns action script.
     *
     */
-  def process(input: String): ActionScalaScript = {
+  def process(input: ParsedText): ActionScalaScript = {
     val code = """
       |val greeting = "Hello, world!"
       |println(greeting)

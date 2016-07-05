@@ -5,6 +5,12 @@
 package yours.interpret
 
 import akka.actor._
+import akka.pattern.ask
+import akka.util.Timeout
+import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.duration._
+import scala.language.postfixOps
+
 import yours.execute.Executor
 import yours.execute.ActionScalaScript
 
@@ -56,9 +62,12 @@ class Interpreter {
     *
     */
   def process(input: String) = {
-    inputProcessor(input)
-    val actionScript = outputProcessor("todo")
-    executor ! actionScript
+    val parsedText = inputProcessor(input)
+    val actionScript = outputProcessor(parsedText)
+    //executor ! actionScript
+    implicit val timeout = Timeout(5 seconds)
+    val futureResponse: Future[String] = ask(executor, actionScript)(timeout).mapTo[String]
+    val result = Await.result(futureResponse, 5 second)
   }
 
   def terminate() = {

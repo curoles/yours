@@ -8,4 +8,4 @@ package yours
 /** This package defines Interpreter.
   *
   */
-package object interpreter {}
+package object interpret {}

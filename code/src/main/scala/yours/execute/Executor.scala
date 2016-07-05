@@ -50,7 +50,7 @@ class Executor extends Actor {
     val tb = cm.mkToolBox()
 
     tb.eval(tb.parse(code))
-
+    sender ! "Done."
   }
 }
 
