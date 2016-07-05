@@ -5,6 +5,6 @@
 package yours.execute
 
 
-class ActionScalaScript(val script:String) {
+class ActionScalaScript(val scalaCode:String) {
 
 }

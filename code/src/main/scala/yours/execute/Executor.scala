@@ -7,6 +7,9 @@ package yours.execute
 import akka.actor.Actor
 import akka.actor.Props
 
+import scala.reflect.runtime._
+import scala.tools.reflect.ToolBox
+
 /** Helps class Executor */
 object Executor {
 
@@ -41,7 +44,13 @@ class Executor extends Actor {
   }
 
   def evalScalaScript(actionScript:ActionScalaScript) {
-    println(actionScript.script)
+    println(actionScript.scalaCode)
+    val code = actionScript.scalaCode.stripMargin
+    val cm = universe.runtimeMirror(getClass.getClassLoader)
+    val tb = cm.mkToolBox()
+
+    tb.eval(tb.parse(code))
+
   }
 }
 

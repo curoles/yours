@@ -38,6 +38,7 @@ import yours.execute.ActionScalaScript
 class Interpreter {
 
   val inputProcessor = new frontend.InputProcessor
+  val outputProcessor = new backend.OutputProcessor
 
 
   //val executor = new yours.execute.Executor
@@ -51,16 +52,16 @@ class Interpreter {
     */
   def apply(input: String) = process(input)
 
-  /** Returns ?
+  /** Parses input, then thinks and then acts.
     *
     */
   def process(input: String) = {
     inputProcessor(input)
-    val actionScript = new ActionScalaScript(input)//outputProcessor()
+    val actionScript = outputProcessor("todo")
     executor ! actionScript
   }
 
-  def shutdown() = {
-    actorSystem.shutdown()
+  def terminate() = {
+    actorSystem.terminate()
   }
 }
