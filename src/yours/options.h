@@ -13,11 +13,12 @@ struct Options
 {
     enum {
         CMD_UNKNOWN = 0,
-        CMD_PATH
+        CMD_PATH,
+        CMD_LIST
     } cmd{CMD_UNKNOWN};
 
     std::string name;
-
+    std::string dbPath;
 
 
 

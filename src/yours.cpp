@@ -9,6 +9,7 @@
 
 
 int yours_path(yours::Options& options);
+int yours_list(yours::Options& options);
 
 int main(int argc, char** argv)
 {
@@ -20,6 +21,8 @@ int main(int argc, char** argv)
     {
         case yours::Options::CMD_PATH:
             return yours_path(options);
+        case yours::Options::CMD_LIST:
+            return yours_list(options);
         case yours::Options::CMD_UNKNOWN:
         default:
             fprintf(stderr, "Error: Unknown command\n");

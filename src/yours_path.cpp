@@ -19,7 +19,7 @@ int yours_path(yours::Options& options)
         printf("%s\n", path.c_str());
     }
     else {
-        fprintf(stderr, "Error: malformed name, cant make path");
+        fprintf(stderr, "Error: malformed name, cant make path.\n");
         return EXIT_FAILURE;
     }
 

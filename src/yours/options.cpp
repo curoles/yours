@@ -14,10 +14,16 @@ bool yours::Options::parse(int argc, char** argv)
     // See https://cliutils.gitlab.io/CLI11Tutorial/chapters/subcommands.html
     app.require_subcommand(/*min*/ 0, /*max*/ 1);
 
-    CLI::App* subcmdPath = app.add_subcommand("path", "Get trie-path by name");
+    CLI::App* cmdPath = app.add_subcommand("path", "Get trie-path by name of term");
 
-    subcmdPath->add_option("name", this->name, "name")
+    cmdPath->add_option("name", this->name, "name of term")
         ->required();
+
+    CLI::App* cmdList = app.add_subcommand("list", "List all terms in DB");
+
+    cmdList->add_option("db", this->dbPath, "path to DB")
+        ->required()
+        ->check(CLI::ExistingDirectory);
 
 #if 0
     this->testCfgFileName = "test.json";
@@ -37,6 +43,7 @@ bool yours::Options::parse(int argc, char** argv)
     }
 
     if (app.got_subcommand("path")) this->cmd = CMD_PATH;
+    else if (app.got_subcommand("list")) this->cmd = CMD_LIST;
 
     return true;
 }
