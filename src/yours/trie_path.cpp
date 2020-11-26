@@ -31,7 +31,7 @@ bool yours::trie_list(const std::string& dbPath, std::vector<std::string>& terms
 
     if (!dir.exists() or !dir.is_directory()) return false;
 
-    for (const auto& p : fs::recursive_directory_iterator(dbPath)) {
+    for (const auto& p : fs::recursive_directory_iterator(dir)) {
         if (p.is_regular_file()) {
             terms.push_back(p.path().string());
         }

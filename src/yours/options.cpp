@@ -25,6 +25,14 @@ bool yours::Options::parse(int argc, char** argv)
         ->required()
         ->check(CLI::ExistingDirectory);
 
+    CLI::App* cmdCompile = app.add_subcommand("compile", "Transform terms into some representation");
+
+    cmdCompile->add_option("db", this->dbPath, "path to DB")
+        ->required()
+        ->check(CLI::ExistingDirectory);
+
+    cmdCompile->add_flag("--prolog", this->compile.prolog, "Create Prolog file");
+
 #if 0
     this->testCfgFileName = "test.json";
     app.add_option("-f,--file", this->testCfgFileName, "path to a test file")->
@@ -44,6 +52,7 @@ bool yours::Options::parse(int argc, char** argv)
 
     if (app.got_subcommand("path")) this->cmd = CMD_PATH;
     else if (app.got_subcommand("list")) this->cmd = CMD_LIST;
+    else if (app.got_subcommand("compile")) this->cmd = CMD_COMPILE;
 
     return true;
 }

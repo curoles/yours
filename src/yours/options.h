@@ -14,11 +14,16 @@ struct Options
     enum {
         CMD_UNKNOWN = 0,
         CMD_PATH,
-        CMD_LIST
+        CMD_LIST,
+        CMD_COMPILE
     } cmd{CMD_UNKNOWN};
 
     std::string name;
     std::string dbPath;
+
+    struct Compile {
+        bool prolog = false;
+    } compile;
 
 
 

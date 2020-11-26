@@ -17,7 +17,7 @@ install(TARGETS
 
 set(SRCS
     yours.cpp
-    yours_path.cpp yours_list.cpp
+    yours_path.cpp yours_list.cpp yours_compile.cpp
     yours/options.cpp
 )
 
