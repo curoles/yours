@@ -1,3 +1,5 @@
+include_directories(.)
+
 set(LSRCS
     yours/trie_path.cpp
 )
@@ -14,12 +16,15 @@ install(TARGETS
 )
 
 set(SRCS
-    yours.cpp
+    yours.cpp yours_path.cpp
+    yours/options.cpp
 )
 
 add_executable(yours ${SRCS})
 
 target_compile_options(yours PUBLIC -pie -fPIE)
+
+target_link_libraries(yours yourslib -lstdc++fs)
 
 install(TARGETS
     yours

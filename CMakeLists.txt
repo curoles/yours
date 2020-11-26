@@ -25,8 +25,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${YOURS_COMMON_C_FLAGS}")
 # Install inside the build directory.
 set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
 
-#include_directories(.)
-
 add_subdirectory(src)
 
 # Log CMake variables.

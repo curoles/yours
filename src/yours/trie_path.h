@@ -9,6 +9,6 @@
 
 namespace yours {
 
-bool path(const std::string& name, std::string& path);
+bool trie_path(const std::string& name, std::string& path);
 
 } // end namespace yours
