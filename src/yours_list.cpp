@@ -20,8 +20,26 @@ int yours_list(yours::Options& options)
         fprintf(stderr, "Error: directory '%s' does not exist.\n", dir.path().c_str());
         return EXIT_FAILURE;
     }
-    //or !dir.is_directory()) return false;
 
+    if (!dir.is_directory()) {
+        fprintf(stderr, "Error: '%s' is not a directory.\n", dir.path().c_str());
+        return EXIT_FAILURE;
+    }
+
+    bool ok = yours::trie_iterate(
+        options.dbPath,
+        [](const std::string& term_path) {
+            printf("%s\n", term_path.c_str());
+            return true;
+        }
+    );
+
+    if (!ok) {
+        fprintf(stderr, "Error: cant find term files.\n");
+        return EXIT_FAILURE;
+    }
+
+#if 0
     std::vector<std::string> terms;
 
     bool ok = yours::trie_list(options.dbPath, terms);
@@ -35,6 +53,7 @@ int yours_list(yours::Options& options)
         fprintf(stderr, "Error: cant find term files.\n");
         return EXIT_FAILURE;
     }
+#endif
 
     return EXIT_SUCCESS;
 }

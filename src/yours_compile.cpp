@@ -9,8 +9,28 @@
 
 #include "yours/options.h"
 #include "yours/trie_path.h"
+#include "yours/term.h"
 
 namespace fs = std::filesystem;
+
+class TermCompiler
+{
+
+public:
+    bool operator()(const std::string& path) {
+        if (!fs::exists(path)) return false;
+        return compile(path);
+    }
+
+    bool compile(const std::string& path);
+};
+
+bool TermCompiler::compile(const std::string& path)
+{
+    yours::Term term;
+    if (!term.open(path)) return false;
+    return true;
+}
 
 int compileProlog(const std::vector<std::string>& terms)
 {
@@ -44,16 +64,11 @@ int yours_compile(yours::Options& options)
         return EXIT_FAILURE;
     }
 
-    std::vector<std::string> terms;
+    TermCompiler compiler;
 
-    bool ok = yours::trie_list(options.dbPath, terms);
+    bool ok = yours::trie_iterate(options.dbPath, compiler);
 
-    if (ok) {
-        if (options.compile.prolog) {
-            compileProlog(terms);
-        }
-    }
-    else {
+    if (!ok) {
         fprintf(stderr, "Error: cant find term files.\n");
         return EXIT_FAILURE;
     }

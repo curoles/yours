@@ -1,7 +1,7 @@
 include_directories(.)
 
 set(LSRCS
-    yours/trie_path.cpp
+    yours/trie_path.cpp yours/term.cpp
 )
 
 add_library(yourslib STATIC ${LSRCS})
