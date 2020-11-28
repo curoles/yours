@@ -46,6 +46,32 @@ bool KB::find_domain(const std::string& name, unsigned int& id)
     return true;
 }
 
+bool KB::find_dterm(unsigned int term_id, unsigned int domain_id, unsigned int& id)
+{
+    using namespace sqlite_orm;
+    auto terms = db_.get_all<DTerm>(
+        where(c(&DTerm::term_id) == term_id and c(&DTerm::domain_id) == domain_id));
+
+    if (terms.size() < 1) return false;
+
+    id = terms[0].id;
+
+    return true;
+}
+
+bool KB::find_fact(unsigned int term_id, const std::string& name, unsigned int& id)
+{
+    using namespace sqlite_orm;
+    auto facts = db_.get_all<Fact>(
+        where(c(&Fact::term_id) == term_id and c(&Fact::name) == name));
+
+    if (facts.size() < 1) return false;
+
+    id = facts[0].id;
+
+    return true;
+}
+
 bool KB::compile(const yours::Term& term)
 {
     yours::sqlite::Term t {id: 0, name: term.name_};
@@ -55,7 +81,9 @@ bool KB::compile(const yours::Term& term)
         for (const std::string& domain_name : term.definitions_) {
             yours::sqlite::Domain d {id: 0, name: domain_name};
             if (!find_domain(d.name, d.id)) {d.id = db_.insert(d);}
-            this->insert_term_definition(term, t.id, domain_name, d.id);
+            yours::sqlite::DTerm dt {id: 0, term_id: t.id, domain_id: d.id};
+            if (!find_dterm(t.id, d.id, dt.id)) {dt.id = db_.insert(dt);}
+            this->insert_term_definition(term, dt.id, domain_name);
         }
 
         return true;
@@ -67,11 +95,20 @@ bool KB::compile(const yours::Term& term)
 bool KB::insert_term_definition(
     const yours::Term& term,
     unsigned int term_id,
-    const std::string& domain_name,
-    unsigned int domain_id
+    const std::string& domain_name
 )
 {
-(void)term;(void)term_id;(void)domain_id;(void)domain_name;
+    auto definition = term.json_.at(domain_name);
+
+    for (const auto& fact : definition.items()) {
+        Fact f {id: 0, term_id: term_id, name: fact.key(), val: fact.value()};
+        if (find_fact(term_id, f.name, f.id)) {
+            db_.update(f);
+        }
+        else {
+            f.id = db_.insert(f);
+        }
+    }
 
     return true;
 }

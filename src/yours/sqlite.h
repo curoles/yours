@@ -6,12 +6,15 @@
 #pragma once
 
 #include <string>
+//#include <any> //<variant>
 
 #include "lib/sqlite_orm.h"
 #include "term.h"
 
 
 namespace yours::sqlite {
+
+using Variant = std::string;//std::any;//variant<int, std::string>;
 
 struct Term {
     unsigned int id;
@@ -24,6 +27,19 @@ struct Domain {
     std::string name;
 };
 
+struct DTerm {
+    unsigned int id;
+    unsigned int term_id;
+    unsigned int domain_id;
+};
+
+struct Fact {
+    unsigned int id;
+    unsigned int term_id;
+    std::string name;
+    Variant val;
+};
+
 static inline
 auto create(const std::string& path) {
     using namespace sqlite_orm;
@@ -33,8 +49,18 @@ auto create(const std::string& path) {
             make_column("Name", &Term::name, unique())),
         make_table("Domain",
             make_column("Id", &Domain::id, primary_key()),
-            make_column("Name", &Domain::name, unique()))
-
+            make_column("Name", &Domain::name, unique())),
+        make_table("DTerm",
+            make_column("Id", &DTerm::id, primary_key()),
+            make_column("TermId", &DTerm::term_id),
+            make_column("DomainId", &DTerm::domain_id),
+            unique(&DTerm::term_id, &DTerm::domain_id)),
+        make_table("Fact",
+            make_column("Id", &Fact::id, primary_key()),
+            make_column("TermId", &Fact::term_id),
+            make_column("Name", &Fact::name),
+            make_column("Value", &Fact::val),
+            unique(&Fact::term_id, &Fact::name))
     );
 }
 
@@ -61,12 +87,15 @@ public:
 
     bool find_domain(const std::string& name, unsigned int& id);
 
+    bool find_dterm(unsigned int term_id, unsigned int domain_id, unsigned int& id);
+
+    bool find_fact(unsigned int term_id, const std::string& name, unsigned int& id);
+
 private:
     bool insert_term_definition(
         const yours::Term& term,
         unsigned int term_id,
-        const std::string& domain_name,
-        unsigned int domain_id
+        const std::string& domain_name
     );
 };
 
