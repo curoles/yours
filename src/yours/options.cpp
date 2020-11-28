@@ -21,13 +21,13 @@ bool yours::Options::parse(int argc, char** argv)
 
     CLI::App* cmdList = app.add_subcommand("list", "List all terms in DB");
 
-    cmdList->add_option("db", this->dbPath, "path to DB")
+    cmdList->add_option("db", this->db_path, "path to DB")
         ->required()
         ->check(CLI::ExistingDirectory);
 
     CLI::App* cmdCompile = app.add_subcommand("compile", "Transform terms into some representation");
 
-    cmdCompile->add_option("db", this->dbPath, "path to DB")
+    cmdCompile->add_option("db", this->db_path, "path to DB")
         ->required()
         ->check(CLI::ExistingDirectory);
 

@@ -10,13 +10,18 @@
 #include "yours/options.h"
 #include "yours/trie_path.h"
 #include "yours/term.h"
+#include "yours/sqlite.h"
 
 namespace fs = std::filesystem;
 
 class TermCompiler
 {
-
+    yours::sqlite::KB sqlite_kb_;
 public:
+    TermCompiler():
+        sqlite_kb_("yours.sqlite")
+    {}
+
     bool operator()(const std::string& path) {
         if (!fs::exists(path)) return false;
         return compile(path);
@@ -29,9 +34,11 @@ bool TermCompiler::compile(const std::string& path)
 {
     yours::Term term;
     if (!term.open(path)) return false;
-    return true;
+
+    return sqlite_kb_.compile(term);
 }
 
+#if 0
 int compileProlog(const std::vector<std::string>& terms)
 {
     std::ofstream prologFile;
@@ -49,10 +56,11 @@ int compileProlog(const std::vector<std::string>& terms)
 
     return 0;
 }
+#endif
 
 int yours_compile(yours::Options& options)
 {
-    fs::directory_entry dir(options.dbPath);
+    fs::directory_entry dir(options.db_path);
 
     if (!dir.exists()) {
         fprintf(stderr, "Error: directory '%s' does not exist.\n", dir.path().c_str());
@@ -66,7 +74,7 @@ int yours_compile(yours::Options& options)
 
     TermCompiler compiler;
 
-    bool ok = yours::trie_iterate(options.dbPath, compiler);
+    bool ok = yours::trie_iterate(options.db_path, compiler);
 
     if (!ok) {
         fprintf(stderr, "Error: cant find term files.\n");

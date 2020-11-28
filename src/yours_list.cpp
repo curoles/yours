@@ -14,7 +14,7 @@ namespace fs = std::filesystem;
 
 int yours_list(yours::Options& options)
 {
-    fs::directory_entry dir(options.dbPath);
+    fs::directory_entry dir(options.db_path);
 
     if (!dir.exists()) {
         fprintf(stderr, "Error: directory '%s' does not exist.\n", dir.path().c_str());
@@ -27,7 +27,7 @@ int yours_list(yours::Options& options)
     }
 
     bool ok = yours::trie_iterate(
-        options.dbPath,
+        options.db_path,
         [](const std::string& term_path) {
             printf("%s\n", term_path.c_str());
             return true;
@@ -42,7 +42,7 @@ int yours_list(yours::Options& options)
 #if 0
     std::vector<std::string> terms;
 
-    bool ok = yours::trie_list(options.dbPath, terms);
+    bool ok = yours::trie_list(options.db_path, terms);
 
     if (ok) {
         for (const auto& term : terms) {

@@ -19,7 +19,7 @@ struct Options
     } cmd{CMD_UNKNOWN};
 
     std::string name;
-    std::string dbPath;
+    std::string db_path;
 
     struct Compile {
         bool prolog = false;
