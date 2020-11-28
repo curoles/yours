@@ -11,13 +11,16 @@
 
 namespace yours {
 
+/**Term is a general purpose name of Knowledge Base object.
+ *
+ */
 class Term
 {
 public:
     using Json = nlohmann::json;
     using VecStr = std::vector<std::string>;
 
-private:
+public:
     Json json_;
     std::string name_;
     VecStr definitions_;

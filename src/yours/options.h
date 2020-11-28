@@ -15,7 +15,8 @@ struct Options
         CMD_UNKNOWN = 0,
         CMD_PATH,
         CMD_LIST,
-        CMD_COMPILE
+        CMD_COMPILE,
+        CMD_SQLITE_SHOW
     } cmd{CMD_UNKNOWN};
 
     std::string name;

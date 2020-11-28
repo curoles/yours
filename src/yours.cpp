@@ -11,6 +11,7 @@
 int yours_path(yours::Options& options);
 int yours_list(yours::Options& options);
 int yours_compile(yours::Options& options);
+int yours_sqlite_show(yours::Options& options);
 
 int main(int argc, char** argv)
 {
@@ -26,6 +27,8 @@ int main(int argc, char** argv)
             return yours_list(options);
         case yours::Options::CMD_COMPILE:
             return yours_compile(options);
+        case yours::Options::CMD_SQLITE_SHOW:
+            return yours_sqlite_show(options);
         case yours::Options::CMD_UNKNOWN:
         default:
             fprintf(stderr, "Error: Unknown command\n");

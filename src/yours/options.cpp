@@ -33,6 +33,15 @@ bool yours::Options::parse(int argc, char** argv)
 
     cmdCompile->add_flag("--prolog", this->compile.prolog, "Create Prolog file");
 
+    CLI::App* cmdSqliteShow = app.add_subcommand("sqlite-show", "Show data from SQLite DB");
+
+    cmdSqliteShow->add_option("db", this->db_path, "path to SQLite DB")
+        ->required()
+        ->check(CLI::ExistingFile);
+
+    cmdSqliteShow->add_option("name", this->name, "name of data: term|domain")
+        ->required();
+
 #if 0
     this->testCfgFileName = "test.json";
     app.add_option("-f,--file", this->testCfgFileName, "path to a test file")->
@@ -53,6 +62,7 @@ bool yours::Options::parse(int argc, char** argv)
     if (app.got_subcommand("path")) this->cmd = CMD_PATH;
     else if (app.got_subcommand("list")) this->cmd = CMD_LIST;
     else if (app.got_subcommand("compile")) this->cmd = CMD_COMPILE;
+    else if (app.got_subcommand("sqlite-show")) this->cmd = CMD_SQLITE_SHOW;
 
     return true;
 }

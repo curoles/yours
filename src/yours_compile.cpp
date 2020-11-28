@@ -20,7 +20,9 @@ class TermCompiler
 public:
     TermCompiler():
         sqlite_kb_("yours.sqlite")
-    {}
+    {
+        sqlite_kb_.sync_schema();
+    }
 
     bool operator()(const std::string& path) {
         if (!fs::exists(path)) return false;
