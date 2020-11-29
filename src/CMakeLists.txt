@@ -2,7 +2,7 @@ include_directories(.)
 
 set(LSRCS
     yours/trie_path.cpp yours/term.cpp
-    yours/sqlite.cpp
+    yours/sqlite.cpp yours/prolog.cpp
 )
 
 add_library(yourslib STATIC ${LSRCS})

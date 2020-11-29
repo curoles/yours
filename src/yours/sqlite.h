@@ -91,6 +91,8 @@ public:
 
     bool find_fact(unsigned int term_id, const std::string& name, unsigned int& id);
 
+    bool get_fact_term(const Fact& fact, Term& term, Domain& domain);
+
 private:
     bool insert_term_definition(
         const yours::Term& term,

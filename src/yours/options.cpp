@@ -31,6 +31,7 @@ bool yours::Options::parse(int argc, char** argv)
         ->required()
         ->check(CLI::ExistingDirectory);
 
+    cmdCompile->add_flag("--sqlite", this->compile.sqlite, "Create SQLite file");
     cmdCompile->add_flag("--prolog", this->compile.prolog, "Create Prolog file");
 
     CLI::App* cmdSqliteShow = app.add_subcommand("sqlite-show", "Show data from SQLite DB");

@@ -11,6 +11,7 @@
 #include "yours/trie_path.h"
 #include "yours/term.h"
 #include "yours/sqlite.h"
+#include "yours/prolog.h"
 
 namespace fs = std::filesystem;
 
@@ -18,8 +19,8 @@ class TermCompiler
 {
     yours::sqlite::KB sqlite_kb_;
 public:
-    TermCompiler():
-        sqlite_kb_("yours.sqlite")
+    TermCompiler(const std::string& path):
+        sqlite_kb_(path)
     {
         sqlite_kb_.sync_schema();
     }
@@ -40,26 +41,6 @@ bool TermCompiler::compile(const std::string& path)
     return sqlite_kb_.compile(term);
 }
 
-#if 0
-int compileProlog(const std::vector<std::string>& terms)
-{
-    std::ofstream prologFile;
-    prologFile.open("yours.prolog");
-
-    prologFile << "/* GNU Prolog: gplc -o yours-prolog yours.prolog*/\n";
-    prologFile << "instance(theuniverse,iniverse).\n";
-
-    printf("Compiling Prolog...\n");
-    for (const auto& term : terms) {
-        printf("%s\n", term.c_str());
-    }
-
-    prologFile.close();
-
-    return 0;
-}
-#endif
-
 int yours_compile(yours::Options& options)
 {
     fs::directory_entry dir(options.db_path);
@@ -74,13 +55,41 @@ int yours_compile(yours::Options& options)
         return EXIT_FAILURE;
     }
 
-    TermCompiler compiler;
+    std::string sqlite_path = "yours.sqlite";
 
-    bool ok = yours::trie_iterate(options.db_path, compiler);
+    if (options.compile.sqlite) {
+        TermCompiler compiler(sqlite_path);
 
-    if (!ok) {
-        fprintf(stderr, "Error: cant find term files.\n");
-        return EXIT_FAILURE;
+        printf("Creating SQLite %s...\n", sqlite_path.c_str());
+
+        bool ok = yours::trie_iterate(options.db_path, compiler);
+
+        if (!ok) {
+            fprintf(stderr, "Error: cant find term files.\n");
+            return EXIT_FAILURE;
+        }
+    }
+
+    if (options.compile.prolog) {
+        if (!fs::exists(sqlite_path)) {
+            fprintf(stderr, "Error: file %s does not exist.\n", sqlite_path.c_str());
+            return EXIT_FAILURE;
+        }
+        std::string prolog_path = "yours.prolog";
+        printf("Creating Prolog %s...\n", prolog_path.c_str());
+        yours::prolog::Compiler prolog(prolog_path);
+        bool ok = prolog.compile(sqlite_path);
+        if (!ok) {
+            fprintf(stderr, "Error: failed to generate Prolog.\n");
+            return EXIT_FAILURE;
+        }
+        //TODO if (options.compile.gplc)
+        std::string gprolog_exe{"yours-prolog"};
+        printf("Creating GNU Prolog executable %s...\n", gprolog_exe.c_str());
+        int gplc_res = yours::prolog::run_gplc(prolog_path, gprolog_exe);
+        if (gplc_res != EXIT_SUCCESS) {
+            fprintf(stderr, "Error: failed to generate GNU Prolog executable.\n");
+        }
     }
 
     return EXIT_SUCCESS;

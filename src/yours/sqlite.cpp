@@ -112,3 +112,18 @@ bool KB::insert_term_definition(
 
     return true;
 }
+
+bool KB::get_fact_term(const Fact& fact, Term& term, Domain& domain)
+{
+    if (auto dterm = db_.get_pointer<DTerm>(fact.term_id)) {
+        if (auto domain_ptr = db_.get_pointer<Domain>(dterm->domain_id)) {
+            if (auto term_ptr = db_.get_pointer<Term>(dterm->term_id)) {
+                term = *term_ptr;
+                domain = *domain_ptr;
+                return true;
+            }
+        }
+    }
+
+    return false;
+}

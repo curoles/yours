@@ -23,6 +23,7 @@ struct Options
     std::string db_path;
 
     struct Compile {
+        bool sqlite = false;
         bool prolog = false;
     } compile;
 
