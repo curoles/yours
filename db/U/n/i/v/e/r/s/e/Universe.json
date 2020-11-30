@@ -1,6 +1,6 @@
 {
   "physics": {
       "description": "Our universe, the universe.",
-      "instance": "universe"
+      "instance": "physics::universe"
   }
 }

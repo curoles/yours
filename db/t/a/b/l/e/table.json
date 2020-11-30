@@ -1,0 +1,12 @@
+{
+  "general": {
+    "is": "idea",
+    "description": "a piece of furniture with a flat top and one or more legs, providing a level surface on which objects may be placed",
+    "has": "legs",
+    "property": "geometry::shape"
+  },
+  "computer": {
+    "is": "idea",
+    "description": "an arrangement of data in rows and columns"
+  }
+}

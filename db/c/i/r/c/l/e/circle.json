@@ -1,0 +1,6 @@
+{
+  "geometry": {
+    "description": "shape consisting of all points equidistant from a fixed point (the center)",
+    "is": "geometry::shape"
+  }
+}

@@ -33,4 +33,8 @@ bool is_bad_var_name(const std::string& name);
 
 std::string& safe_var_name(std::string& name);
 
+std::string& rename_builtin(std::string& name);
+
+std::string& to_var_name(std::string& name);
+
 } // namespace yours::prolog

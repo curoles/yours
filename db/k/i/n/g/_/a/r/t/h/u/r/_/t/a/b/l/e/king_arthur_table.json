@@ -1,0 +1,7 @@
+{
+  "_": {
+    "instance": "general::table",
+    "description": "King Arthur had a round table made so that none of his barons, when seated at it, could claim precedence over the others.",
+    "geometry::shape": "geometry::circle"
+  }
+}
